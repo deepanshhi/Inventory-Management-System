@@ -14,7 +14,6 @@ class Item {
     public String getName() {
         return name;
     }
-
     public int getQuantity() {
         return quantity;
     }
@@ -38,46 +37,51 @@ class Item {
 }
 
 public class InventoryManagementSystem {
-    private TreeMap<String, Item> inventory = new TreeMap<>();
+    private TreeMap<String, Item> inventoryTreeMap = new TreeMap<>();
+    private HashMap<String, Integer> inventoryHashMap = new HashMap<>();
+    private ArrayList<Item> itemList = new ArrayList<>();
 
-    // Add item to inventory
     public void addItem(String name, int quantity, double price) {
-        if (inventory.containsKey(name)) {
+        if (inventoryTreeMap.containsKey(name)) {
             System.out.println("Item already exists. Use updateItem to change the details.");
         } else {
-            inventory.put(name, new Item(name, quantity, price));
+            Item newItem = new Item(name, quantity, price);
+            inventoryTreeMap.put(name, newItem);
+            inventoryHashMap.put(name, quantity);
+            itemList.add(newItem);
             System.out.println("Item added successfully!");
         }
     }
 
-    // Update item in inventory
     public void updateItem(String name, int quantity, double price) {
-        if (inventory.containsKey(name)) {
-            Item item = inventory.get(name);
+        if (inventoryTreeMap.containsKey(name)) {
+            Item item = inventoryTreeMap.get(name);
             item.setQuantity(quantity);
             item.setPrice(price);
+            inventoryHashMap.put(name, quantity);
             System.out.println("Item updated successfully!");
         } else {
             System.out.println("Item not found in inventory.");
         }
     }
 
-    // Remove item from inventory
     public void removeItem(String name) {
-        if (inventory.remove(name) != null) {
+        if (inventoryTreeMap.containsKey(name)) {
+            Item item = inventoryTreeMap.remove(name);
+            inventoryHashMap.remove(name);
+            itemList.remove(item);
             System.out.println("Item removed successfully!");
         } else {
             System.out.println("Item not found in inventory.");
         }
     }
 
-    // Display inventory items
     public void displayInventory() {
-        if (inventory.isEmpty()) {
+        if (inventoryTreeMap.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {
-            for (Map.Entry<String, Item> entry : inventory.entrySet()) {
-                System.out.println(entry.getValue());
+            for (Item item : itemList) {
+                System.out.println(item);
             }
         }
     }
@@ -95,7 +99,7 @@ public class InventoryManagementSystem {
             System.out.println("5. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -111,7 +115,7 @@ public class InventoryManagementSystem {
                     System.out.print("Enter item name to update: ");
                     name = scanner.nextLine();
                     System.out.print("Enter new quantity: ");
-                    quantity = scanner.nextInt();ss
+                    quantity = scanner.nextInt();
                     System.out.print("Enter new price: ");
                     price = scanner.nextDouble();
                     ims.updateItem(name, quantity, price);
@@ -136,5 +140,4 @@ public class InventoryManagementSystem {
         }
     }
 }
-
 
