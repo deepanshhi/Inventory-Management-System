@@ -55,7 +55,7 @@ The project is composed of two main classes:
 
 ## Data Structures Used
 
-TreeMap: Used to store inventory items in alphabetical order by item name.
+TreeMap: Used to store inventory items in alphabetical order by item name.                      
 HashMap: Provides fast access to inventory quantities.                            
 ArrayList: Maintains the list of items for easy iteration and display.
    
